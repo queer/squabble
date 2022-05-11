@@ -13,7 +13,7 @@ defmodule Squabble do
 
   require Logger
 
-  @key :squabble
+  @key Squabble
   @election_initial_delay 500
   @election_random_delay 500
 
