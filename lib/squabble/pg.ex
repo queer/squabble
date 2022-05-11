@@ -3,7 +3,7 @@ defmodule Squabble.PG do
   Squabble process group helper
   """
 
-  @key Squabble
+  @key :squabble
 
   @doc """
   Join the process group for squabble communication
@@ -11,7 +11,7 @@ defmodule Squabble.PG do
   @spec join() :: :ok
   def join() do
     :pg.start(@key)
-    :pg.join(@key, self())
+    :ok = :pg.join(@key, self())
   end
 
   @doc """
