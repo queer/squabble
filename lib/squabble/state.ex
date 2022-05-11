@@ -11,6 +11,7 @@ defmodule Squabble.State do
     :highest_seen_term,
     :leader_pid,
     :leader_node,
+    :table,
     :voted_for,
     :votes
   ]

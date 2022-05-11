@@ -13,7 +13,7 @@ defmodule Squabble do
 
   require Logger
 
-  @key :squabble
+  @key Squabble
   @election_initial_delay 500
   @election_random_delay 500
 
@@ -80,8 +80,8 @@ defmodule Squabble do
   def init(opts) do
     PG.join()
 
-    :ets.new(@key, [:set, :public])
-    :ets.insert(@key, {:is_leader?, false})
+    table = :ets.new(@key, [:set, :public, :named_table])
+    :ets.insert(table, {:is_leader?, false})
 
     start_election(1)
 
@@ -96,7 +96,8 @@ defmodule Squabble do
       subscriptions: subscriptions,
       term: 0,
       highest_seen_term: 0,
-      votes: []
+      votes: [],
+      table: table,
     }
 
     {:ok, state, {:continue, {:election, :check}}}

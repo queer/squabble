@@ -12,7 +12,6 @@ defmodule Squabble.Server do
 
   @type debug() :: map()
 
-  @key :squabble
   @check_election_timeout 1500
 
   @doc """
@@ -38,8 +37,8 @@ defmodule Squabble.Server do
   end
 
   @impl true
-  def leader_selected(_term) do
-    :ets.insert(@key, {:is_leader?, true})
+  def leader_selected(table, _term) do
+    :ets.insert(table, {:is_leader?, true})
   end
 
   @impl true
@@ -185,7 +184,7 @@ defmodule Squabble.Server do
         "Setting leader for term #{term} as #{inspect(leader_pid)}"
       end, type: :squabble)
 
-      :ets.insert(@key, {:is_leader?, false})
+      :ets.insert(state.table, {:is_leader?, false})
 
       state =
         state
@@ -239,7 +238,7 @@ defmodule Squabble.Server do
         end)
 
         Enum.each(winner_subscriptions(state), fn module ->
-          module.leader_selected(state.term)
+          module.leader_selected(state.table, state.term)
         end)
 
         {:ok, state}
@@ -340,7 +339,7 @@ defmodule Squabble.Server do
     {:ok, state} = set_leader(state, self(), node(), term)
 
     Enum.each(winner_subscriptions(state), fn module ->
-      module.leader_selected(term)
+      module.leader_selected(state.table, term)
     end)
 
     {:ok, %{state | state: "leader"}}
