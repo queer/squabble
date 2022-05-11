@@ -3,7 +3,7 @@ defmodule Squabble.PG do
   Squabble process group helper
   """
 
-  @key :squabble
+  @key Squabble
 
   @doc """
   Join the process group for squabble communication
