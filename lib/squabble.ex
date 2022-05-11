@@ -80,7 +80,7 @@ defmodule Squabble do
   def init(opts) do
     PG.join()
 
-    table = :ets.new(@key, [:set])
+    :ets.new(@key, [:set, :public, :named_table])
     :ets.insert(@key, {:is_leader?, false})
 
     start_election(1)
