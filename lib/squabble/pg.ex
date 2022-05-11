@@ -11,7 +11,7 @@ defmodule Squabble.PG do
   @spec join() :: :ok
   def join() do
     :pg.start(@key)
-    :ok = :pg.join(@key, self())
+    :pg.join(@key, self())
   end
 
   @doc """
