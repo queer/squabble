@@ -10,7 +10,7 @@ defmodule Squabble.PG do
   """
   @spec join() :: :ok
   def join() do
-    {:ok, _pid} = :pg.start(@key)
+    :pg.start(@key)
     :ok = :pg.join(@key, self())
   end
 
