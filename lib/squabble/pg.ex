@@ -10,8 +10,8 @@ defmodule Squabble.PG do
   """
   @spec join() :: :ok
   def join() do
-    :ok = :pg2.create(@key)
-    :ok = :pg2.join(@key, self())
+    :ok = :pg.create(@key)
+    :ok = :pg.join(@key, self())
   end
 
   @doc """
@@ -35,7 +35,7 @@ defmodule Squabble.PG do
   """
   @spec members() :: [pid()]
   def members() do
-    :pg2.get_members(:squabble)
+    :pg.get_members(:squabble)
   end
 
   @doc """
